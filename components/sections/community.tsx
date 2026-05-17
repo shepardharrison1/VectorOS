@@ -1,15 +1,10 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Calendar, MessagesSquare, GraduationCap, Users, ArrowRight } from "lucide-react";
+import { Calendar, MessagesSquare, GraduationCap, Users, ArrowRight, type LucideIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SectionBadge } from "@/components/ui/section-badge";
 
-/**
- * Community — workshops, discord, learning sessions, collaborative projects.
- * All meta strings reflect honest day-one stage (no fake member counts).
- * Primary CTA wired to the real Discord invite.
- */
 const DISCORD_INVITE = "https://discord.gg/DAnC9eQ56t";
 
 const ITEMS = [
@@ -106,7 +101,7 @@ function CommunityCell({
   title: string;
   description: string;
   meta: string;
-  Icon: React.ComponentType<{ className?: string; strokeWidth?: number }>;
+  Icon: LucideIcon;
   delay: number;
 }) {
   return (

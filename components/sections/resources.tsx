@@ -1,21 +1,15 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowUpRight, BookOpen, Cpu, GitBranch, Layers, Telescope } from "lucide-react";
+import { ArrowUpRight, BookOpen, Cpu, GitBranch, Layers, Telescope, type LucideIcon } from "lucide-react";
 import { SectionBadge } from "@/components/ui/section-badge";
-
-/**
- * Resources — featured learning materials.
- * Day-one state: all resources marked "Coming soon" with consistent honest framing.
- * Asymmetric grid: one large feature card + four standard cards.
- */
 
 type Resource = {
   title: string;
   description: string;
   category: string;
   status: string;
-  Icon: React.ComponentType<{ className?: string }>;
+  Icon: LucideIcon;
 };
 
 const RESOURCES: Resource[] = [
@@ -81,7 +75,7 @@ export function Resources() {
               not skimmed. First releases drop with the summer cohort.
             </p>
           </div>
-          <a
+          
             href="#community"
             className="group inline-flex items-center gap-2 text-sm text-foreground/70 transition-colors hover:text-foreground"
           >
