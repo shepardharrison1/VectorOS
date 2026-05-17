@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { motion, useMotionValue, useMotionTemplate, useSpring, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { ArrowUpRight } from "lucide-react";
 import { SectionBadge } from "@/components/ui/section-badge";
@@ -68,7 +68,6 @@ export function Pillars() {
       id="pillars"
       className="relative border-t border-white/[0.06] py-28 sm:py-36"
     >
-      {/* Section header */}
       <div className="container">
         <div className="mx-auto max-w-3xl text-center">
           <SectionBadge>Curriculum / 05</SectionBadge>
@@ -83,8 +82,6 @@ export function Pillars() {
           </p>
         </div>
 
-        {/* Cards grid — 1 col mobile, 2 col tablet, asymmetric on desktop.
-            6-col grid: first row = 3 cards × 2 cols. Second row = 2 cards × 3 cols. */}
         <div className="mt-16 grid gap-4 sm:grid-cols-2 lg:grid-cols-6">
           {PILLARS.map((p, i) => (
             <PillarCard
@@ -100,10 +97,6 @@ export function Pillars() {
   );
 }
 
-/**
- * PillarCard — interactive card with cursor-following spotlight + 3D tilt.
- * Refined and subtle — no aggressive transforms.
- */
 function PillarCard({
   index,
   title,
@@ -116,7 +109,6 @@ function PillarCard({
   const mouseX = useMotionValue(0.5);
   const mouseY = useMotionValue(0.5);
 
-  // Spring-smoothed tilt
   const rotateX = useSpring(useTransform(mouseY, [0, 1], [3, -3]), {
     stiffness: 200,
     damping: 25,
@@ -126,11 +118,9 @@ function PillarCard({
     damping: 25,
   });
 
-  // Combined spotlight gradient — single motion value derived from both axes.
-  // Computed at the top of the component to follow React hook rules.
-  const spotlight = useTransform([mouseX, mouseY], ([x, y]: number[]) =>
-    `radial-gradient(400px circle at ${x * 100}% ${y * 100}%, hsla(0,0%,100%,0.06), transparent 50%)`
-  );
+  const spotlightX = useTransform(mouseX, (v) => `${v * 100}%`);
+  const spotlightY = useTransform(mouseY, (v) => `${v * 100}%`);
+  const spotlight = useMotionTemplate`radial-gradient(400px circle at ${spotlightX} ${spotlightY}, hsla(0,0%,100%,0.06), transparent 50%)`;
 
   function handleMouseMove(e: React.MouseEvent<HTMLDivElement>) {
     const r = ref.current?.getBoundingClientRect();
@@ -161,20 +151,17 @@ function PillarCard({
       }}
       className={`group relative overflow-hidden rounded-2xl border border-white/[0.07] bg-white/[0.015] p-6 transition-colors duration-500 hover:border-white/15 sm:p-8 ${className}`}
     >
-      {/* Cursor spotlight */}
       <motion.div
         aria-hidden
         className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
         style={{ background: spotlight }}
       />
 
-      {/* Inner grid texture */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 bg-grid opacity-30 [mask-image:radial-gradient(ellipse_80%_60%_at_50%_50%,black_30%,transparent_100%)]"
       />
 
-      {/* Content */}
       <div className="relative flex h-full flex-col">
         <div className="flex items-start justify-between">
           <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-white/10 bg-white/[0.02] text-foreground/90 transition-all duration-500 group-hover:bg-white/[0.05] group-hover:border-white/20">
