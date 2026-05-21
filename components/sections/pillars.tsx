@@ -12,16 +12,13 @@ import {
   PhilosophyIcon,
 } from "@/components/effects/pillar-icons";
 
-/**
- * Pillars — five core areas VectorOS teaches.
- * Each card has a cursor-following spotlight, depth on hover, and an entry animation.
- */
+type PillarIcon = (props: { className?: string }) => JSX.Element;
 
 type Pillar = {
   index: string;
   title: string;
   description: string;
-  Icon: React.ComponentType<{ className?: string }>;
+  Icon: PillarIcon;
 };
 
 const PILLARS: Pillar[] = [
